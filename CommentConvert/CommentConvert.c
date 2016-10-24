@@ -37,6 +37,7 @@ void DoNulState(FILE *pfIn, FILE *pfOut)
 		break;
 	}
 }
+
 void DoCState(FILE *pfIn, FILE *pfOut)
 {
 	char first = fgetc(pfIn);
@@ -56,7 +57,7 @@ void DoCState(FILE *pfIn, FILE *pfOut)
 			else
 			{
 				ungetc(next,pfIn);
-				fputc('\n', pfOut);
+ 				fputc('\n', pfOut);
 			}
 			state = NUL_STATE;
 		}
@@ -79,6 +80,7 @@ void DoCState(FILE *pfIn, FILE *pfOut)
 		break;
 	}
 }
+
 void DoCppState(FILE *pfIn, FILE *pfOut)
 {
 	char first = fgetc(pfIn);
@@ -100,6 +102,7 @@ void DoCppState(FILE *pfIn, FILE *pfOut)
 
 void ConvertWork(FILE *pfIn, FILE *pfOut)
 {
+	//状态机切换
 	while (state != END_STATE)
 	{
 		switch (state)
@@ -118,6 +121,8 @@ void ConvertWork(FILE *pfIn, FILE *pfOut)
 		}
 	}
 }
+
+//程序入口
 void CommentConvert()
 {
 	FILE * pfIn = NULL;

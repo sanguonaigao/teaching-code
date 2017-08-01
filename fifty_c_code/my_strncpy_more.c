@@ -7,32 +7,45 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 char *my_strncpy(char *dest, const char *src, int count)
 {
 	char *ret = dest;
+	int len_src = strlen(src);
+	int more = 0;
 	assert(dest);
 	assert(src);
-	//拷贝过程，包含'\0'
-	while(count /4)
+	if(count >= len_src)
 	{
-		*(int *)dest = *(int *)src;
+		more = count-len_src;
+	}
+	//拷贝过程，包含'\0'
+	while(len_src / 4)
+	{
+		*(unsigned int *)dest = *(unsigned int *)src;
 		dest += 4;
 		src += 4;
-		count-=4;
+		len_src -= 4;
 	}
-	int last = count%4;
+	int last = len_src%4;
 	while(last--)
 	{
 		*dest++ = *src++;
+	}
+	while(more--)
+	{
+		*dest++ = '\0';
 	}
 	return ret;
 }
 
 int main()
 {
-	char arr[20] = {0};
-	my_strncpy(arr, "hello bit.", 15);
+	char arr[200] = {0};
+	int i = 0;
+	for(i = 0; i<100000000; i++)
+		my_strncpy(arr, "hello bit.", 20);
 	printf("%s\n",arr);
 	return 0;
 }
